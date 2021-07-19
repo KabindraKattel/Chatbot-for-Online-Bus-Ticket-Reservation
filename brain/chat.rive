@@ -1,0 +1,32 @@
++ [*] book [*] (ticket|reserve seats|book bus ticket|tickets|reserve seat|bus tickets) [*]
+- <iframe height="410px" width="600px" frameBorder="1" src="http://127.0.0.1:5000/login/home/book"></iframe>
+
++ [*] reserve [*] seat [*]
+- <iframe height="500px" width="100%" frameBorder="0" src="http://127.0.0.1:5000/login/home/bookticket"></iframe>\n
+
++ [*] avilable seats [*]
+@ bus details
+
++ proceed to seatplan
+- <iframe height="430px" width="600px" frameBorder="1" src="http://127.0.0.1:5000/login/home/seatplan";output=embed></iframe>
+
++ confirm seat booking
+- <iframe height="500px" width="850px" frameBorder="1" src="http://127.0.0.1:5000/login/home/user/current_booking";output=embed></iframe>
+
++ [*] driver [*]
+- Don't ask me about the driver . I just book ticket for bus.
+
++ what can you do [*]
+- I can book bus ticket.
+
++ proceed to busdetails
+- <iframe height="500px" width="650px" frameBorder="1" src="http://127.0.0.1:5000/login/home/book/busdetails";output=embed></iframe>
+
++ show booking details
+- <iframe height="500px" width="900px" frameBorder="1" src="http://127.0.0.1:5000/login/home/user/week_booking";output=embed></iframe>
+
++ cancel [*] ticket
+@ show booking details
+
++ cancel bus ticket
+@ show booking details

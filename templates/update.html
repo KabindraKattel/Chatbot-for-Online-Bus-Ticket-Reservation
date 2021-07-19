@@ -1,0 +1,80 @@
+{% extends 'layout.html' %}
+{% block title %}Admin{% endblock %}
+
+{% block content %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/update.css') }}">
+</head>
+<body>
+<div>
+    <div class="topnav">
+        <a href="{{ url_for('admin') }}">Home</a>
+        <a href="{{ url_for('info') }}">Passengers Info</a>
+        <a  href="{{ url_for('add_bus') }}">Add Bus</a>
+        <a class="active" href="#">Update Bus</a>
+    </div>
+
+    <div class="update-form" id="updateForm">
+    <form action="{{ url_for('update_bus') }}" method="post" class="update-bus">
+        <label for="no"><b>Bus No</b></label>
+        <input type="text" name="bus_no" placeholder="Bus No" id="no" required>
+        <label for="source"><b>Source</b></label>
+        <p><select id="source" name="bus_source" required>
+            <option disabled selected value> -- Select Source -- </option>
+            <option value="Bharatpur">Bharatpur</option>
+			<option value="Biratnagar">Biratnagar</option>
+            <option value="Birganj">Birganj</option>
+            <option value="Butwal">Butwal</option>
+            <option value="Dharan">Dharan</option>
+			<option value="Hetauda">Hetauda</option>
+			<option value="Ilam">Ilam</option>
+			<option value="Janakpur">Janakpur</option>
+            <option value="Kathmandu">Kathmandu</option>
+			<option value="Mahendranagar">Mahendranagar</option>
+			<option value="Nepalganj">Nepalganj</option>
+            <option value="Pokhara">Pokhara</option>
+			<option value="Tulsipur">Tulsipur</option>
+        </select></p>
+        <p><label for="destination"><b>Destination</b></label>
+        <select id="destination" name="bus_destination" required>
+            <option disabled selected value> -- Select Destination -- </option>
+            <option value="Bharatpur">Bharatpur</option>
+			<option value="Biratnagar">Biratnagar</option>
+            <option value="Birganj">Birganj</option>
+            <option value="Butwal">Butwal</option>
+            <option value="Dharan">Dharan</option>
+			<option value="Hetauda">Hetauda</option>
+			<option value="Ilam">Ilam</option>
+			<option value="Janakpur">Janakpur</option>
+            <option value="Kathmandu">Kathmandu</option>
+			<option value="Mahendranagar">Mahendranagar</option>
+			<option value="Nepalganj">Nepalganj</option>
+            <option value="Pokhara">Pokhara</option>
+            <option value="Tulsipur">Tulsipur</option>
+        </select></p>
+        <label for="time"><b>Departure Time</b></label>
+        <input type="time" placeholder="Departure Time" name="dept_time" id="time" required>
+        <center><div>{{msg}}</div></center>
+        <button type="submit" class="btn">Update Bus</button>
+    </form>
+</div>
+</div>
+<script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+<script>
+    $(document).ready(function () {
+        $('select').on('change', function (event) {
+            var prevValue = $(this).data('previous');
+            $('select').not(this).find('option[value="' + prevValue + '"]').show();
+            var value = $(this).val();
+            $(this).data('previous', value);
+            $('select').not(this).find('option[value="' + value + '"]').hide();
+        });
+
+    });
+</script>
+</body>
+</html>
+{% endblock %}

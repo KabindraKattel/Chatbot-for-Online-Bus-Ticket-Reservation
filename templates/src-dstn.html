@@ -1,0 +1,155 @@
+
+<html>
+<head>
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+
+    body{
+      width: 500px;
+      height: 100%;
+      overflow: hidden;
+    }
+
+  .form-container input[type=text], .form-container input[type=tel] ,.form-container input[type=date] {
+      width: 100%;
+      padding: 6px;
+      border: none;
+      margin-left: 50px;
+      margin-right: 150px;
+      background:  #e6f7ff;
+}
+
+.form-container label{
+    margin-left: 50px;
+    color :green;
+}
+
+.form-container input[type=text]:focus, .form-container input[type=tel]:focus, .form-container input[type=date]:focus {
+  background-color: #b3e7ff;
+  outline: none;
+}
+
+  .form-container #buttonInput {
+  background-color: green;
+  color: white;
+  padding: 5px 5px 5px 5px;
+  border: none;
+  margin-left: 50px;
+  margin-right: 150px;
+
+  bottom: 0px;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.8;
+  font-size: 2em;
+  }
+  .form-container #buttonInput:hover{
+  opacity: 1;
+  color: white;
+  }
+        .form-container select{
+            background-color: #e6f7ff;
+            outline: none;
+            width: 100%;
+            padding: 6px;
+            border: none;
+            margin-left: 50px;
+            margin-right: 150px;
+        }
+
+    </style>
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+</head>
+<body>
+<div id="book-form">
+    <form class="form-container"  method="post">
+        <p><label for="source"> <b>Source</b></label>
+            <select id="source" name="Source" required>
+                <option disabled selected value> -- Select Source -- </option>
+                <option value="Bharatpur">Bharatpur</option>
+				<option value="Biratnagar">Biratnagar</option>
+                <option value="Birganj">Birganj</option>
+                <option value="Butwal">Butwal</option>
+                <option value="Dharan">Dharan</option>
+				<option value="Hetauda">Hetauda</option>
+				<option value="Ilam">Ilam</option>
+				<option value="Janakpur">Janakpur</option>
+                <option value="Kathmandu">Kathmandu</option>
+				<option value="Mahendranagar">Mahendranagar</option>
+				<option value="Nepalganj">Nepalganj</option>
+                <option value="Pokhara">Pokhara</option>
+                <option value="Tulsipur">Tulsipur</option>
+            </select></p>
+        <input type="hidden" id="hide" name="hide" value="{{hide}}">
+        <p><label for="dstn"><b>Destination</b></label>
+            <select id="dstn" name="Destination" required>
+                <option disabled selected value> -- Select Destination -- </option>
+                <option value="Bharatpur">Bharatpur</option>
+				<option value="Biratnagar">Biratnagar</option>
+                <option value="Birganj">Birganj</option>
+                <option value="Butwal">Butwal</option>
+                <option value="Dharan">Dharan</option>
+				<option value="Hetauda">Hetauda</option>
+				<option value="Ilam">Ilam</option>
+				<option value="Janakpur">Janakpur</option>
+                <option value="Kathmandu">Kathmandu</option>
+				<option value="Mahendranagar">Mahendranagar</option>
+				<option value="Nepalganj">Nepalganj</option>
+                <option value="Pokhara">Pokhara</option>
+                <option value="Tulsipur">Tulsipur</option>
+            </select></p>
+        <p><label for="Pickup"><b>Pickup Location</b></label>
+        <input type="text" placeholder="Enter Pickup Location" name="pickup" id="Pickup" required> </p>
+        <p><label for="datePicker"><b>Date</b></label>
+        <input type="date" id="datePicker" placeholder="Enter Date : YY/MM/DD" name="date" required> </p>
+        <input id="buttonInput" type="submit" value="Proceed to BusDetails"/>
+        <script src="{{url_for('static', filename='js/rivescript.min.js')}}"></script>
+        <script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+        <script>
+        $(document).ready(function() {
+            var date = new Date();
+            document.getElementById('datePicker').min = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+            var d = new Date(document.getElementById('datePicker').min);
+            var time = d.getTime() + 86400000 * 6
+            var date = new Date(time);
+            var options = {
+                year: 'numeric', month: 'numeric', day: 'numeric',
+            };
+
+            var result = date.toLocaleDateString('en-CA', options);
+            document.getElementById('datePicker').max = result;
+
+            if ($("#hide").val() == "hide") {
+                $("#buttonInput").attr("disabled", true);
+                $("#buttonInput").hide();
+                $("#source").val("{{source}}").css({'color': 'black'}).attr("disabled", true);
+                $("#dstn").val("{{dstn}}").css({'color': 'black'}).attr("disabled", true);
+                $("#Pickup").val("{{Pickup}}").css({'color': 'black'}).attr("disabled", true);
+                $("#datePicker").val("{{date}}").css({'color': 'black'}).attr("disabled", true);
+            }
+            $("#buttonInput").click(function (e) {
+                if ($("#source").val() != "" && $("#dstn").val() != "" && $("#Pickup").val() != "" && $("#datePicker").val() != "") {
+                    window.parent.document.getElementById('textInput').value = document.getElementById('buttonInput').value;
+                    window.parent.getBotResponse();
+                    document.getElementById("hide").value = "hide"
+
+
+                }
+            });
+            $('select').on('change', function (event) {
+                var prevValue = $(this).data('previous');
+                $('select').not(this).find('option[value="' + prevValue + '"]').show();
+                var value = $(this).val();
+                $(this).data('previous', value);
+                $('select').not(this).find('option[value="' + value + '"]').hide();
+            });
+        });
+        </script>
+    </form>
+
+
+</div>
+</body>
+</html>

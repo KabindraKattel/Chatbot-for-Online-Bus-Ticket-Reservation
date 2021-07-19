@@ -1,0 +1,63 @@
+.topnav {
+    overflow: hidden;
+    background-color: #333;
+}
+
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.topnav a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.update-form{
+    border: 3px solid #f1f1f1;
+    width: 100%;
+}
+.update-bus{
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+}
+.update-bus input[type=text], .update-bus input[type=date], .update-bus input[type=time]{
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #e6f7ff;
+}
+.update-bus input[type=text]:focus, .update-bus input[type=time]:focus,.update-bus input[type=date]:focus{
+    background-color: #b3e7ff;
+    outline: none;
+}
+.btn{
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.8;
+    font-size: 20px;
+}
+.btn:hover{
+    opacity: 1;
+}
+.update-bus select{
+    background-color: #e6f7ff;
+    outline: none;
+    width: 100%;
+    padding: 6px;
+    border: none;
+}

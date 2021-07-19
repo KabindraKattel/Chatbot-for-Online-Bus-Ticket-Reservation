@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+
+{% block title %}Details{% endblock %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+#user {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#user td, #user th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#user tr:hover {background-color: #ddd;}
+
+#user th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+#table-div{
+ width:100%;
+
+}
+</style>
+</head>
+<body>
+
+<div id="table-div">
+    <center><caption><h2>Passanger Details</h2></caption>
+<table id="user">
+    <thead>
+  <tr>
+      <th>Name</th>
+      <th>Bus No</th>
+      <th>Pickup Point</th>
+      <th>Destination</th>
+      <th>Departure Time</th>
+      <th>Price</th>
+  </tr>
+  </thead>
+    <tbody>
+        {% for row in busDetails %}
+        <tr>
+            <td>{{row[0]}}</td>
+            <td>{{row[1]}}</td>
+            <td>{{row[2]}}</td>
+            <td>{{row[3]}}</td>
+            <td>{{row[4]}}</td>
+            <td>{{row[5]}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    </center>
+</div>
+</body>
+</html>
+
+{% endblock %}

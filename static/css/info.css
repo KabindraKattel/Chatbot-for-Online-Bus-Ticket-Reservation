@@ -1,0 +1,56 @@
+.topnav {
+    overflow: hidden;
+    background-color: #333;
+}
+
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.topnav a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+#bus{
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+#bus td, #bus th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+thead{
+      text-align:center;
+}
+
+#bus tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+#bus tr:hover {
+    background-color: #ddd;
+}
+#bus th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+#table-div{
+    width:100%;
+    height: 100%;
+    align: center;
+ }

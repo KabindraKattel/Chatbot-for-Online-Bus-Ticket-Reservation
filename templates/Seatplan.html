@@ -1,0 +1,236 @@
+
+
+<!doctype html>
+
+<html>
+	<head>
+		<title>Seat Plan</title>
+
+		<link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet'>
+		<link rel="stylesheet"  href="{{ url_for('static', filename='css/jquery.seat-charts.css') }}">
+		<link rel="stylesheet"  href="{{ url_for('static', filename='css/style-sp.css') }}">
+	</head>
+
+	<body>
+		<div class="wrapper">
+			<div class="container">
+				<div id="seat-map">
+					<div class="front-indicator">F R O N T</div>
+
+				</div>
+				<div class="booking-details">
+					<h2>Booking Details</h2>
+
+					<h3 id> Selected Seats (<span id="counter">0</span>):</h3>
+					<h4 id="selected-seats"></h4>
+
+					<b>Total:</b> <b id="totalrs">Rs. <span id="total">0</span></b>
+					<span> <input id="book" type="submit" value="book"/></span>
+
+					<div id="legend"></div>
+				</div>
+			</div>
+			<button id = "back">&laquo;&laquo;   Back</button>
+		</div>
+		<script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+		<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script src="{{ url_for('static', filename='js/jquery.seat-charts.js') }}"></script>
+
+		<script>
+			var tot_sum;
+			var ASeatLabel = 1;
+			var BSeatLabel = 1;
+			var CSeatLabel = 1;
+			var bookArr= [];
+			var bookArrLabel = [];
+			var bookedArr = [];
+			var str = "{{barr}}";
+  			var str = (str.split(", "));
+  			console.log(str)
+<!--  			for (var i=0; i<str.length;i++){-->
+<!--  				str[i] = parseFloat(str[i]);-->
+<!--  			}-->
+			var bookedArr= Array.from(new Set(bookedArr.concat(str)));
+			console.log(bookedArr);
+			$(document).ready(function() {
+
+					document.getElementById('selected-seats').scrollIntoView({block: 'start', behavior: 'smooth'});
+				var $cart = $('#selected-seats'),
+					$counter = $('#counter'),
+					$total = $('#total'),
+					sc = $('#seat-map').seatCharts({
+					map: [
+						'___bb',
+						'aa_bb',
+						'aa_bb',
+						'aa_bb',
+						'aa_bb',
+						'aa_bb',
+						'aa_bb',
+						'aa_bb',
+						'ccccc'
+					],
+					seats: {
+						a: {
+							price   : {{price}},
+							classes : 'a-class', //your custom CSS class
+							category: 'A'
+						},
+						b: {
+							price   : {{price}},
+							classes : 'b-class', //your custom CSS class
+							category: 'B'
+						},
+						c: {
+							price   : {{price}},
+							classes : 'c-class', //your custom CSS class
+							category: 'C'
+						}
+
+					},
+					naming : {
+						top : false,
+						getLabel : function (character, row, column) {
+							if (character=='a')
+								return ("A"+ASeatLabel++);
+							else if(character=='b'){
+								if(row==1 && column==4)
+									return "क";
+								if(row==1 && column==5)
+								return "ख";
+								else
+								return ("B"+BSeatLabel++);
+							}
+							else
+								return ("C"+CSeatLabel++);
+						},
+					},
+					legend : {
+						node : $('#legend'),
+					    items : [
+							[ '', 'available',   'Available' ],
+							[ '', 'selected',   'Selected' ],
+							[ '', 'unavailable', 'Already Booked']
+					    ]
+					},
+					click: function () {
+						if (this.status() == 'available') {
+							console.log(typeof this.settings.id);
+							bookArr.push(parseFloat(this.settings.id));
+							bookArrLabel.push(this.settings.label);
+    						var swapp;
+    						var n = bookArr.length-1;
+    						do {
+        						swapp = false;
+        						for (var i=0; i < n; i++)
+        						{
+            						if (bookArr[i] > bookArr[i+1])
+            						{
+            							var temp1 = bookArr[i];
+            							var temp2 = bookArrLabel[i];
+              						 	bookArr[i] = bookArr[i+1];
+              						 	bookArrLabel[i] = bookArrLabel[i+1];
+               							bookArr[i+1] = temp1;
+               							bookArrLabel[i+1] = temp2;
+               							 swapp = true;
+            						}
+        						}
+        						n--;
+    						} while (swapp);
+
+							console.log(bookArr);
+							console.log(bookArrLabel,bookArrLabel.length);
+							$('<span class="cart">'+this.settings.label+","+'</span>')
+								.attr('id', 'cart-item-'+this.settings.label)
+								.appendTo($cart);
+							console.log(typeof(this.settings.id))
+							$counter.text(sc.find('selected').length+1);
+							tot_sum= recalculateTotal(sc)+this.data().price;
+							$total.text(tot_sum);
+							return 'selected';
+
+						} else if (this.status() == 'selected') {
+								for( var i = 0; i < bookArr.length; i++){
+	   							if ( bookArr[i] === parseFloat(this.settings.id)) {
+	     							bookArr.splice(i, 1);
+	     							bookArrLabel.splice(i,1);
+	     							i--;
+	   							}
+								}
+
+							$counter.text(sc.find('selected').length-1);
+
+							tot_sum= recalculateTotal(sc)-this.data().price;
+							$total.text(tot_sum);
+							$('#cart-item-'+this.settings.label).remove();
+							console.log(bookArr);
+							return 'available';
+
+						} else if (this.status() == 'unavailable') {
+							return 'unavailable';
+
+						} else {
+							return this.style();
+						}
+					}
+				});
+				sc.get(bookedArr).status('unavailable');
+				$("#book").click(function() {
+
+				console.log("BookArr:" + bookArr + bookArrLabel);
+				console.log("B"+bookArr);
+				var avail = sc.find('available').length;
+				stringBookArr = bookArr.map(String);
+				bookedArr = Array.from(new Set(bookedArr.concat(stringBookArr)));
+				bookedArr.sort();
+				booked_details = [bookedArr, avail];
+				$.ajax({
+         				 type: "POST",
+        				 contentType: "application/json;charset=utf-8",
+        				 url: "/login/home/book/busdetails/seatplan/seat_confirm",
+     				     data: JSON.stringify(booked_details),
+     				      traditional: "true",
+      				     dataType: "json"
+          			});
+					if (bookArr.length>0){
+						console.log("A"+bookArr);
+					$counter.text(0);
+					console.log(tot_sum);
+					$total.text(0);
+					$(".cart").remove();
+					book_details = [bookArr, bookArrLabel,tot_sum];
+          			$.ajax({
+         				 type: "POST",
+        				 contentType: "application/json;charset=utf-8",
+        				 url: "/login/home/book/busdetails/seatplan/payment_confirm",
+     				     data: JSON.stringify(book_details),
+     				      traditional: "true",
+      				     dataType: "json"
+          			});
+          			window.parent.document.getElementById('textInput').value = "Confirm Seat Booking";
+               		window.parent.getBotResponse();
+          		}
+					var tot_avail= sc.seatIds.length;
+					var unavail = sc.find('unavailable').length;
+					var sel = sc.find('selected').length;
+					console.log(tot_avail+">"+avail+">"+unavail+">"+sel);
+				});
+				$("#back").click(function() {
+					location.replace("/login/home/book/busdetails");
+				});
+		});
+
+
+
+		function recalculateTotal(sc) {
+			var total = 0;
+			sc.find('selected').each(function () {
+				total += this.data().price;
+			});
+
+			return total;
+		}
+
+		</script>
+	</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--    <meta http-equiv="refresh" content="0"/>-->
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/booking.css') }}">
+</head>
+<style>
+#yes{
+height: 100px;
+width :500px;
+}
+
+.multiselect {
+  width: 200px;
+}
+
+.textBox {
+  position: relative;
+}
+
+.textBox input {
+  width: 600px;
+  padding : 3px 3px 3px 3px;
+  font-weight: bold;
+  color : blue;
+
+}
+
+#refundreq input {
+  font-weight: bold;
+  color: blue;
+  padding : 3px 3px 3px 3px;
+}
+
+#price, #textInput{
+    color: green;
+    font-weight: bold;
+}
+
+#checkboxes {
+  display: none;
+  border: 1px #dadada solid;
+  width : 600px;
+  background-color : black;
+  color: white;
+  padding: 3px 3px 3px 3px;
+}
+
+#checkboxes label {
+  display: block;
+}
+
+#checkboxes label:hover {
+  background-color:#990000;
+}
+
+#detail{
+    margin-left : 10px;
+}
+#back {
+	 background-color:#00264d;
+	border:none;
+	width: 130px;
+	padding: 5px 5px 5px 5px;
+	color:white;
+	border-radius: 8px;
+    text-align: center;
+    text-size:10px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#cancel_confirm{
+    padding: 5px 5px 5px 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    border:2px solid;
+}
+
+</style>
+<body>
+    <div id = "detail">
+        <button id = "back">&laquo;&laquo;   Back</button>
+        <center><h3><b>Ticket Cancellation Form for {{details[4]}}</b></h3></center>
+	    <center> <h3><b>[{{details[0]}} - {{details[1]}}]</b></h3> </center><br>
+	    <h4 id = "book"><b>Departure Date :</b> <span>{{details[2]}}</span></h4>
+         <h4 ><b>Passenger's Name :</b> <span>{{user}}</span></h4>
+        <h4><b>Mobile Phone No  :</b><span> {{phone}}</span></h4>
+  <div class="multiselect" >
+    <div class="textBox" onclick="showCheckboxes()">
+	<label for="textInputs" id="textInput"> Seats to cancel :</label><input type="text" id="textInputs" value="NONE " disabled/>
+    </div>
+    <div id="checkboxes">
+        {% set a = details[3]| replace("[", "")| replace("\"", "") | replace("]", "") | replace(" ", "")%}
+        {% set list1 = a.split(',') %}
+        {% for val in list1 %}
+		<label for="{{val}}">
+		<input type="checkbox" name="check" id="{{val}}"  onclick ="printChecked()">
+            {{val| replace("u0915", "क")| replace("u0916", "ख")}}
+        </label>
+        {% endfor %}
+    </div>
+  </div>
+	<div id = "refundreq" onclick = "hidecheckbox()">
+	<p><label for="prices" id="price"> Refunded Amount : (50% of the ticket price rate)<br></label><input type="text" id="prices" value="Rs. 0" disabled/></p>
+        <p><button id="cancel_confirm"><b>Cancel Booking</b></button></p>
+	</div>
+  </div>
+
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script>
+var expanded = false;
+
+			function printChecked(){
+				var items=document.getElementsByName('check');
+				var selectedItems="";
+				var cancelArr=[];
+				var count = 0 ;
+				for(var i=0; i<items.length; i++){
+					if(items[i].type=='checkbox' && items[i].checked==true){
+					    count +=1;
+						selectedItems+=items[i].id+", ";
+						cancelArr.push(items[i].id);
+						}
+                        if (selectedItems!="")
+                            document.getElementById("textInputs").value = selectedItems.replace("u0915", "क").replace("u0916", "ख");
+                         else
+                               document.getElementById("textInputs").value = "NONE";
+                        document.getElementById("prices").value ="Rs. "+ count * 0.5 * {{details[5]}};
+				}
+				console.log(cancelArr);
+				$("#cancel_confirm").click(function() {
+					if (cancelArr.length !=0)
+					    $.ajax({
+         				 type: "POST",
+        				 contentType: "application/json;charset=utf-8",
+        				 url: "/login/home/book/busdetails/seatplan/cancelconf",
+     				     data: JSON.stringify(cancelArr),
+     				      traditional: "true",
+      				     dataType: "json"
+          			});
+          			location.replace("/login/home/user/week_booking");
+				});
+			}
+function showCheckboxes() {
+  var checkboxes = document.getElementById("checkboxes");
+  if (!expanded) {
+    checkboxes.style.display = "block";
+    expanded = true;
+  } else {
+    checkboxes.style.display = "none";
+    expanded = false;
+  }
+}
+
+function hidecheckbox()
+{var checkboxes = document.getElementById("checkboxes");
+  if (!expanded) {
+  } else {
+    checkboxes.style.display = "none";
+    expanded = false;
+  }
+
+}
+    $(document).ready( function() {
+        window.onload = function() {
+        if(!window.location.hash) {
+            window.location = window.location + '#load';
+            window.location.reload();
+        }
+        }
+         $("#back").click(function() {
+					location.replace("/login/home/user/week_booking");
+				});
+    });
+
+
+
+</script>
+</body>
+</html>

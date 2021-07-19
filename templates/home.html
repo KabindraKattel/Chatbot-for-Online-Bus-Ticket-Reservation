@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<head>
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/chat.css') }}">
+
+
+
+</head>
+  <body>
+    <div>
+      <div id="chatbox">
+        <p class="botText"><span>Hello! {{user}}.</span></p>
+      </div>
+      <div id="userInput">
+        <input id="textInput" type="text" name="msg" placeholder="Enter Message" autocomplete="off" autofocus><span>
+        <input id="buttonInput" type="submit" value="Send"></<span>
+      </div>
+        <script src="{{url_for('static', filename='js/rivescript.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/bot.js')}}"> </script>
+    </div>
+  </body>
+</html>
+{% endblock %}

@@ -1,0 +1,87 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/booking.css') }}">
+</head>
+<body>
+<div id="table-div">
+
+
+<table id="user">
+    <center><caption><h3><b>Passenger Booking Details</b></h3></caption></center><br>
+      <caption><h4 id = "book"><b>Departure Date :</b> <span>{{date}}</span></h4></caption>
+        <caption><h4><b>Passenger's Name :</b> <span>{{user}}</span></h4></caption>
+        <caption><h4><b>Mobile Phone No  :</b><span> {{phone}}</span></h4></caption>
+    <thead>
+  <tr>
+      <th scope="col">Bus Name</th>
+      <th scope="col">Bus No</th>
+      <th scope="col">Source</th>
+      <th scope="col">Pickup</th>
+      <th scope="col">Destination</th>
+      <th scope="col">Dept. Time</th>
+      <th scope="col">Selected Seats</th>
+      <th scope="col">No of selected Seats</th>
+      <th scope="col">Per Ticket Price</th>
+      <th scope="col">Amount</th>
+  </tr>
+  </thead>
+    <tbody id="body">
+
+        {% for row in current %}
+        <tr>
+            <td>{{row[0]}}</td>
+            <td>{{row[1]}}</td>
+            <td>{{row[2]}}</td>
+            <td>{{row[3]}}</td>
+            <td>{{row[4]}}</td>
+            <td>{{row[5]}}</td>
+            <td>{{row[6]| replace("u0916", "ख")| replace("u0915", "क")}}</td>
+            <td>{{row[7]}}</td>
+            <td>{{row[8]}}</td>
+            <td>{{row[9]}}</td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+  <tfoot>
+    <tr>
+      <th colspan="9">Total </th>
+      <th id="tot"></th>
+    </tr>
+</table>
+    </center>
+</div>
+<script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+<script>
+
+    $(document).ready( function() {
+    window.onload = function() {
+    if(!window.location.hash) {
+        window.location = window.location + '#loaded';
+        window.location.reload();
+    }
+    var a = "{{current}}";
+    if (a == "()")
+        document.getElementById("body").innerHTML = '<tr><td colspan = "10"><h2 style="color:red; text-align:center;">'+"No seat booked !!!"+'</h2></td></tr>'
+}
+    var tot=0;
+    var col = document.getElementsByTagName('td');
+    var row = document.getElementsByTagName('tr');
+    var row_count = row.length-2;
+    for (var i=1;i<=row_count;i++)
+        tot = tot + parseInt(col[10*i-1].innerHTML)
+    $('#tot').html(tot);
+
+});
+
+
+
+</script>
+</body>
+</html>

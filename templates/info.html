@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+{% block title %}Admin{% endblock %}
+
+{% block content %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/info.css') }}">
+</head>
+<body>
+<div>
+    <div class="topnav">
+        <a  href="{{ url_for('admin') }}">Home</a>
+        <a href="{{ url_for('add_bus') }}">Add Bus</a>
+        <a href="{{ url_for('update_bus') }}">Update Bus</a>
+        <a class="active" href="#about">Info</a>
+    </div>
+    <div id="table-div">
+        <center><caption><h2>Bus List</h2></caption>
+            <table id="bus">
+                <thead>
+                <tr>
+                    <th>S.N.</th>
+                    <th>Bus No</th>
+                    <th>Name</th>
+                    <th>Source</th>
+                    <th>Destination</th>
+                    <th>Departure Time</th>
+                    <th>Booked Seats</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for row in busInfo %}
+                <tr>
+                    <td>{{row[0]}}</td>
+                    <td>{{row[1]}}</td>
+                    <td>{{row[2]}}</td>
+                    <td>{{row[3]}}</td>
+                    <td>{{row[4]}}</td>
+                    <td>{{row[5]}}</td>
+                    <td>{{row[6]}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </center>
+    </div>
+</div>
+</body>
+</html>
+{% endblock %}

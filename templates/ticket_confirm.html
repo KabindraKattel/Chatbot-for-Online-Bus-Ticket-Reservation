@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{
+  background-color: =#2675fc;
+}
+#user {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#user td, #user th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#user tr:hover {background-color: #ddd;}
+
+#user th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+#table-div{
+ width:100%;
+
+}
+</style>
+</head>
+<body>
+
+<div id="table-div">
+    <center><h1>{{msg}}</h1>
+    <center><caption><h2>Booking Details</h2></caption>
+<table id="user">
+    <thead>
+  <tr>
+      <th>Name</th>
+      <th>Phone Number</th>
+      <th>Bus No</th>
+      <th>Pickup Point</th>
+      <th>Destination</th>
+  </tr>
+  </thead>
+    <tbody>
+      {% for row in pasDetails %}
+      <tr>
+          <td>{{row[0]}}</td>
+          <td>{{row[1]}}</td>
+          <td>{{row[2]}}</td>
+          <td>{{row[3]}}</td>
+          <td>{{row[4]}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>
+    </center>
+</div>
+</body>
+</html>

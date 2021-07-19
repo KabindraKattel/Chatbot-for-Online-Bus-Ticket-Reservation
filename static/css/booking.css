@@ -1,0 +1,63 @@
+caption{
+  font-family: "Trebuchet MS", "Arial", "Helvetica", "sans-serif";
+}
+#user {
+  font-family: "Trebuchet MS", "Arial", "Helvetica", "sans-serif";
+  border-collapse: collapse;
+  width: 100%;
+
+}
+
+#user td, #user th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#user tr:nth-child(even){background-color: #f2f2f2;}
+
+#user tr:hover {background-color: #ddd;}
+
+#user th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+#table-div{
+ width:100%;
+ height: 100%;
+}
+
+
+table{
+  height: auto;
+}
+span{
+  color: blue;
+}
+
+h3{
+  color: green;
+}
+h4{
+  text-align: left;
+  margin-left: 10px;
+  color:green;
+}
+
+thead th{
+  position: sticky;
+  top : 0px;
+}
+
+tfoot th{
+  position: sticky;
+  bottom: 0;
+}
+td{
+  text-align: center;
+}
+#book{
+  text-align:right;
+}
